@@ -4,6 +4,7 @@ import (
 	"fmt"
 	cookie "gogs.base127.com/cookie-signature"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -16,11 +17,13 @@ func main() {
 	secret := argsWithoutProg[0]
 	message := argsWithoutProg[1]
 
-	signedCookie := cookie.Signcookie(message, secret)
+	replacer := strings.NewReplacer("\\", "", "=", "", "$", "",)
+
+	signedCookie := cookie.Signcookie(message, secret, replacer)
 	complete := message + "." + signedCookie
 	fmt.Println("Signed cookie: " + complete)
 
-	if cookie.Unsigncookie(complete, secret) {
+	if cookie.Unsigncookie(complete, secret, replacer) {
 		fmt.Println("It's good!")
 	} else {
 		fmt.Println("It's NOT so good!")
