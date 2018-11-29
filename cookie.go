@@ -19,7 +19,6 @@ func Signcookie(message string, secret string, replacer *strings.Replacer) (stri
 
 	encodedString := base64.StdEncoding.EncodeToString(mac.Sum(nil))
 
-	// replacer := strings.NewReplacer("\\", "", "=", "", "+", "", "$", "",)
 	replaced := replacer.Replace(encodedString)
 
 	return replaced
